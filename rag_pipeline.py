@@ -22,7 +22,7 @@ print("Step 2 Done — Embeddings ready")
 
 # Step 3 — Store in ChromaDB
 vectorstore = Chroma.from_documents(documents, embeddings)
-retriever = vectorstore.as_retriever(search_kwargs={"k": 200})
+retriever = vectorstore.as_retriever(search_kwargs={"k": 50})
 print("Step 3 Done — ChromaDB ready")
 
 # Step 4 — Connect Groq LLM
