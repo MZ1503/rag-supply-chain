@@ -1,4 +1,4 @@
-#Supply Chain RAG Q&A System
+#Supply Chain RAG Q&A System (Need to Fine-Tune)
 
 ## What it does
 Natural language Q&A system on 10,000 rows of FMCG supply chain data.
