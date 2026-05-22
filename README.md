@@ -35,35 +35,83 @@ The Agentic pattern used in this project is intent classification with routing w
 
 
 # Tech Stack
-- FastAPI — backend
+- FastAPI — REST API backend
 - LangChain — intent classification routing
 - OpenAI GPT-4o-mini — natural language understanding
 - Pandas — pre-calculated analytics engine
 - Docker — containerization
 - GitHub Actions — CI/CD pipeline
-- Railway — production deployment
 - Deployed on AWS EC2 with Amazon ECR
 - Streamlit — interactive frontend
 
 ## Architecture
-analytics.py — Pandas class, 10 pre-calculated metrics
-api.py — FastAPI with intent classifier
-app.py — Streamlit frontend calling Railway API
-Dockerfile — containerized application
-.github/workflows/ci.yml — automated testing and deployment
+analytics.py          — Pandas class, 10 pre-calculated metrics
+api.py                — FastAPI with intent classifier and routing
+app.py                — Streamlit frontend
+Dockerfile            — containerized application
+docker-compose.yml    — local development setup
+.github/workflows/    — automated CI/CD pipeline
+experiments/          — earlier approaches tried and abandoned
+tests/                — automated test suite
 
 ## How To Run Locally
-1. Clone the repo
-2. pip install -r requirements.txt
-3. Add API keys to .env (see .env.example)
-4. uvicorn api:app --reload
-5. streamlit run app.py
+
+### 1. Clone the repo
+```bash
+git clone https://github.com/MZ1503/supply-chain-ai-assistant
+cd supply-chain-ai-assistant
+```
+
+### 2. Create virtual environment
+```bash
+python -m venv venv
+venv\Scripts\activate  # Windows
+source venv/bin/activate  # Mac/Linux
+```
+
+### 3. Install dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Configure environment
+```bash
+cp .env.example .env
+# Add your OpenAI API key to .env
+```
+
+### 5. Add your data
+```bash
+# Add your inventory CSV to data/inventory_data.csv
+# See data/sample_inventory.csv for required column structure
+```
+
+### 6. Run the API
+```bash
+uvicorn api:app --reload
+```
+
+### 7. Run the frontend
+```bash
+streamlit run app.py
+```
+
+## Data
+Inventory data is synthetic, generated to represent a realistic 
+supply chain structure based on my logistics experience. 
+Does not represent real company data.
+
+Required CSV columns: BRAND, CATEGORY, ACTUAL_QTY, 
+UNIT_PRICE_AED, DAYS_TO_EXPIRY
 
 ## What I Learned
-- RAG is the wrong tool for structured tabular data.
-- Pre-calculating metrics gives reliable, fast, exact answers.
-- Separating intent classification from data retrieval.
-- Docker + CI/CD makes deployment repeatable and automatic.
+- RAG is the wrong tool for structured tabular data
+- Pre-calculating metrics gives reliable, exact, fast answers
+- Separating intent classification from data retrieval
+- Docker + CI/CD makes deployment repeatable and automatic
+- Importance of choosing the right tool for the data type
 
-## Note
-Inventory data is synthetic, generated to represent a realistic supply chain structure based on my logistics experience. Does not represent real company data.
+## Experiments
+See `experiments/pandas_agent_v1.py` for the earlier Pandas Agent 
+approach that was abandoned due to context window limitations 
+with 10,000+ rows.
