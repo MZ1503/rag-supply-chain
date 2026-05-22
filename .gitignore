@@ -4,3 +4,4 @@ __pycache__/
 chroma_db/
 .vscode/
 *.code-workspacedata/inventory_data.csv 
+rag-supply-chain.code-workspace 
