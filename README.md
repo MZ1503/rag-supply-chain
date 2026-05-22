@@ -3,8 +3,7 @@
 Natural language inventory analytics platform enables logistics managers to query 10,000+ SKU inventory data in English for instant and accurate answers about expired products, inventory value , brands that needs attention, etc.
 
 # Live Links
-API: https://supply-chain-ai-assistant.up.railway.app/docs
-Demo: https://huggingface.co/spaces/YOUR_USERNAME/supply-chain-ai-assistant
+Streamlit Demo: https://huggingface.co/spaces/MZ1503/supply-chain-ai-assistant
 AWS EC2: http://3.123.36.250:8000/docs
 
 # Why I built this tool?

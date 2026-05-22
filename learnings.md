@@ -6,7 +6,7 @@ Q2)What is the ReAct pattern?
 Ans) Think- Act- Response loop
 
 Q3)Why does the Pandas agent write Python code?
-It writes the python code to make calculations, LangChain cannot do calculations its a large language model so it can actually write python code to do the calculation
+It writes the python code to make calculations, LLM cannot do calculations it can give semantic search output
 
 Q4)What is the difference between a chain and an agent?
 chain is like an assembly line, it follows the same steps everytime, no decision making of its own. agent is like a human analyst who chooses the approach based on the question, it thinks and understands the situation, which tool to use, reads the result.
