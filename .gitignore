@@ -3,4 +3,4 @@ venv/
 __pycache__/
 chroma_db/
 .vscode/
-*.code-workspace
+*.code-workspacedata/inventory_data.csv 

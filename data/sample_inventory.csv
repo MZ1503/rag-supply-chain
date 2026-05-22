@@ -1,0 +1,11 @@
+BRAND,CATEGORY,ACTUAL_QTY,UNIT_PRICE_AED,DAYS_TO_EXPIRY
+Nestlé,Dairy,100,5.50,30
+Unilever,FMCG,0,12.00,15
+Generic,Food,50,3.25,-10
+TestBrand,Beverages,250,8.75,7
+SampleCo,Snacks,50,4.00,-2
+AlphaBrand,Dairy,30,6.00,-15
+BetaCo,FMCG,120,9.50,3
+GammaBrand,Food,0,4.25,45
+DeltaCo,Beverages,80,11.00,-1
+OmegaBrand,Snacks,200,2.75,60
