@@ -10,7 +10,7 @@ question=st.text_input("Ask questions about inventory data:")
 if question:
     with st.spinner("Analyzing..."):
        response=requests.post(
-           "https://supply-chain-ai-assistant.up.railway.app/query",
+           "http://3.123.36.250:8000/query",
             json={"question": question}
        )
        result = response.json()
