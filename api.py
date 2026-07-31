@@ -15,6 +15,17 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+#Module level globals
+
+inventory=None
+
+client = ChatOpenAI(
+                        openai_api_key=os.getenv("OPENAI_API_KEY"),
+                        model="gpt-4o-mini",
+                        temperature=0
+
+    )
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Load inventory data on startup, clean up on shutdown."""
@@ -28,35 +39,28 @@ async def lifespan(app: FastAPI):
     yield
     logger.info("Application shutting down")
 
-    app = FastAPI(
+app = FastAPI(
     title="Supply Chain AI Assistant",
     description="Natural language inventory analytics for logistics managers",
     version="1.0.0",
     lifespan=lifespan
-    )
+)
 
-    client = ChatOpenAI(
-    openai_api_key=os.getenv("OPENAI_API_KEY"),
-    model="gpt-4o-mini",
-    temperature=0
+   
+#Pydantic models
+class QueryRequest(BaseModel):
+      question: str
 
-    class QueryRequest(BaseModel):
-    question: str
+class QueryResponse(BaseModel):
+      answer: str
 
-    class QueryResponse(BaseModel):
-    answer: str
 
+# Helper Functions
 def classify_intent(question: str) -> str:
     """
-    Classifies user question into a predefined metric key.
-
-    Args:
-        question: Natural language question from user
-
-    Returns:
-        One of the 10 predefined metric keys
-
-    Raises:
+    Classifies user question into a predefined metric key.Args:
+        question: Natural language question from user Returns: One of the 10 predefined metric keys
+     Raises:
         Exception: If OpenAI API call fails
     """
     prompt = f"""You are a supply chain analytics assistant.
@@ -71,7 +75,7 @@ products_zero_stock, expiry_rate_brand, urgent_brands, top_10_products"""
     response = client.invoke(prompt)
     return response.content.strip()
 
-    def format_answer(metric_key: str, metrics: dict) -> str:
+def format_answer(metric_key: str, metrics: dict) -> str:
     """
     Formats a pre-calculated metric into a human readable answer.
 
@@ -100,8 +104,8 @@ products_zero_stock, expiry_rate_brand, urgent_brands, top_10_products"""
 
     return answers.get(metric_key, "I didn't quite understand that. Could you rephrase?")
 
-
-    @app.get("/health")
+#API Endpoints
+@app.get("/health")
 def health() -> dict:
     """Health check endpoint for load balancers and monitoring."""
     return {"status": "healthy"}
