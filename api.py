@@ -6,6 +6,7 @@ from pydantic import BaseModel
 from analytics import Inventory
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
+from app.cache import get_cached_response, set_cached_response
 
 load_dotenv()
 
@@ -134,10 +135,21 @@ def query(request: QueryRequest) -> QueryResponse:
 
         logger.info(f"Query received: {request.question}")
 
+        #Adding Cache
+         
+        cached=get_cached_response(request.question)
+        if cached:
+            return QueryResponse(answer=cached)
+
         metric_key = classify_intent(request.question)
         logger.info(f"Intent classified as: {metric_key}")
 
+        
         answer = format_answer(metric_key, inventory.metrics)
+        print("About to call set_cached_response")
+
+        set_cached_response(request.question,answer)
+        print("Called set_cached_response successfully")
         return QueryResponse(answer=answer)
 
     except ValueError as e:
