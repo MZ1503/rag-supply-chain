@@ -3,8 +3,7 @@
 Natural language inventory analytics platform enables logistics managers to query 10,000+ SKU inventory data in English for instant and accurate answers about expired products, inventory value , brands that needs attention, etc.
 
 # Live Links
-Streamlit Demo: https://huggingface.co/spaces/MZ1503/supply-chain-ai-assistant
-AWS EC2: http://3.123.36.250:8000/docs
+AWS EC2: http://3.67.3.254:8000/docs
 
 # Why I built this tool?
 I spent around 4 years in logistics and supply chain and in one of the previous companies as a Supply Chain Analyst, I handled around 1000+ SKU's demand and supply. I had to manually check the inventory data in Excel. Create expiry and inventory analysis reports. This tool is based out of that frustation of doing manual job especially being an Engineer and in the world of AI. 
@@ -14,11 +13,11 @@ Initially when I started building this tool, I chose RAG, LangChain, ChromaDB an
 The Agentic pattern used in this project is intent classification with routing where the LLM(GPT-4o-mini) classifies the user's question into predefined metrics,then routes to the precalculated answers. This decision taught me to choose the right retrieval strategy - RAG for unstructured documents and Pandas for structured tabular data.
  
 # The Working
-- User enters a question in plain English
-- Streamlit sends to Fast API on Railway
-- GPT-4o-mini classifies the intent
+- Streamlit sends request to FastAPI backend
+- Redis cache checked first — instant response if cached
+- If not cached, GPT-4o-mini classifies the intent
 - Pre-calculated metrics are looked up
-- Clean answer returned
+- Response cached and returned
 
 # Questions this AI assistant can answer
      
@@ -36,6 +35,10 @@ The Agentic pattern used in this project is intent classification with routing w
 
 # Tech Stack
 - FastAPI — REST API backend
+- PostgreSQL — persistent data storage
+- Redis — response caching layer
+- SQLAlchemy — ORM
+- Alembic — database migrations
 - LangChain — intent classification routing
 - OpenAI GPT-4o-mini — natural language understanding
 - Pandas — pre-calculated analytics engine
@@ -53,6 +56,10 @@ docker-compose.yml    — local development setup
 .github/workflows/    — automated CI/CD pipeline
 experiments/          — earlier approaches tried and abandoned
 tests/                — automated test suite
+app/database.py       — PostgreSQL connection (SQLAlchemy)
+app/models.py         — Database schema (Product, Query, User)
+app/cache.py          — Redis caching functions
+migrations/           — Alembic migration files
 
 ## How To Run Locally
 
@@ -115,3 +122,23 @@ UNIT_PRICE_AED, DAYS_TO_EXPIRY
 See `experiments/pandas_agent_v1.py` for the earlier Pandas Agent 
 approach that was abandoned due to context window limitations 
 with 10,000+ rows.
+
+Enterprise Upgrade Sprints
+
+### Sprint 1 — Bug Fixes
+- Fixed KeyError from dead deployment URL
+- Migrated to live AWS EC2 endpoint
+
+### Sprint 2 — Database Layer
+- Migrated from CSV to PostgreSQL
+- Designed normalized schema (Product, Query, User)
+- Implemented Alembic migrations
+
+### Sprint 3 — Caching Layer
+- Implemented Redis caching
+- Reduced response time from ~2s to under 100ms
+- Debugged production Docker/disk space issue on AWS EC2
+
+### Sprint 4 — Authentication (In Progress)
+- JWT authentication
+- Rate limiting
